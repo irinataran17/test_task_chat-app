@@ -24,9 +24,18 @@ io.on('connection', (socket) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
               return callback('Name and room name are required.');
         }
+        params.room = params.room.toLowerCase();
 
-        socket.join(params.room);
+        var userList = users.getUserList(params.room);
+        var takenName = userList.filter(takenName => {
+            return params.name === takenName;
+        });
+        if (takenName.length > 0) {
+            return callback('Name is already taken, please pick another name');
+        }
+
         users.removeUser(socket.id);
+        socket.join(params.room);
         users.addUser(socket.id, params.name, params.room);
         
         io.to(params.room).emit('updateUserList', users.getUserList(params.room));
