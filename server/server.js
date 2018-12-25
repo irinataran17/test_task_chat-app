@@ -20,6 +20,8 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     // console.log('New user connected');
 
+    socket.emit('updateRoomList', users.getActiveRooms());
+
     socket.on('join', (params, callback) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
               return callback('Name and room name are required.');

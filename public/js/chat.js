@@ -30,7 +30,7 @@ $(document).ready(function() {
     });
 
     socket.on('disconnect', function () {
-        console.log('Disconnected from server');
+        console.log('Disconnected from chat-server');
     });
 
     socket.on('updateUserList', function (users) {
