@@ -1,18 +1,19 @@
 $(document).ready(function() {
 
     var socket = io();
+    var select = $('#rooms-select');
 
-    socket.on('connect', function () {
-        
-        socket.on('updateRoomList', function (rooms) {
-
-            rooms.forEach(function (room) {
-                $('#active__rooms').append(`<option value="${room}"`);
-            });
+    socket.on('UpdateRoomList', (rooms) => {
+        if (!rooms.length > 0) {
+            select.append( `<option value="" selected disabled hidden> -- No Activ Room -- </option>` )
+        }
+        rooms.forEach((room) => {
+            select.append( `<option value="${room}">${room}</option>` )
         });
     });
-    socket.on('disconnect', function() {
-        console.log('Disconnected from server.');
+    
+    $('#rooms-select').click((e) => {
+        $('#room-name').val(e.target.value)
     });
-})
+});
 
