@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JOIN | Tchat App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body class="centered-form">
+    <div class="centered-form__form">
+        <form action="/chat.html">
+            <div class="form-field">
+                <h3>Join a Chat</h3>
+                <% if (message.length > 0) { %>
+                    <div class="alert alert-danger">
+                        <h5><%= message %></h5>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-field">
+                <label>Display Name</label>
+                <% if(name === null) { %>
+                    <input type="text" name="name" autofocus autocomplete="off" value="" />
+                <% } else { %>
+                    <input type="text" name="name" autofocus autocomplete="off"value="<%=name%>" />
+                <% } %>
+            </div>
+            <div class="form-field">
+                <label>Room Name</label>
+                <input id="room-name" type="text" name="room" autocomplete="off"/>
+            </div>
+            <div class="form-field">
+                <label>Rooms Online</label>
+                <select id="rooms-select"></select>
+            </div>
+            <div class="form-field">
+                <button>Join</button>
+            </div>
+        </form>
+        <form name="logout" action="/logout?_method=DELETE" method="POST">
+            <div class="form-field">
+                <button>Logout</button>
+            </div>
+        </form>
+    </div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/libs/jquery-3.3.1.min.js"></script>
+<script src="/js/join.js"></script>
+</body>
+</html>

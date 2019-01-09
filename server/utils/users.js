@@ -24,12 +24,11 @@ class Users {
         return namesArray;
     }
 
-    getActiveRooms() {
-        var activeRooms =[];
-        if (this.users) {
-            activeRooms = [...new Set(this.users.map((user) => user.room))];
-        }
-        return activeRooms;
+    isUniqueUser (room, name) {
+		var roomUsersList = this.getUserList(room);
+		var dublicated = roomUsersList.filter((user) => user.toUpperCase() === name.toUpperCase());
+
+		return dublicated.length ? false : true
     }
 }
 
