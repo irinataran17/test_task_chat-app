@@ -1,8 +1,10 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
+const {postgres_config} = require('../secrets/secrets');
+
 //creating a new sequalize instance with our local db
-const sequelize = new Sequelize('postgres://chatadmin:testpass@localhost:5432/chatappdb');
+const sequelize = new Sequelize(postgres_config);
 
 //testing the connection
 sequelize
@@ -17,6 +19,11 @@ sequelize
 
 //creating users model
 const User = sequelize.define('users', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     username: {
         type: Sequelize.STRING,
         unique: true,
@@ -30,17 +37,16 @@ const User = sequelize.define('users', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
-    }
+    },
+    token: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
 }, {
     hooks: {
         beforeCreate: (user) => {
             const salt = bcrypt.genSaltSync();
             user.password = bcrypt.hashSync(user.password, salt);
-        }
-    },
-    instanceMethods: {
-        validPassword: function(password) {
-            return bcrypt.compareSync(password, this.password);
         }
     }
 });
